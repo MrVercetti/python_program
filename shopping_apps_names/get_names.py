@@ -18,3 +18,4 @@ with open('hehe.html', 'r') as web_data:
             print i.get_text()
 
 os.remove('hehe.html')
+print "shared in github~"
