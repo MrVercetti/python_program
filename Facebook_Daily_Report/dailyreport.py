@@ -28,7 +28,7 @@ def download_daily_report(daily_url):
     return os.system(cmd)
 
 
-# 检查4张日报是否下载完成
+# 检查5张日报是否下载完成
 def check_completeness():
     if len([x for x in os.listdir(base) if 'Appcoach' in x]) < 5:
         time.sleep(1)
