@@ -16,9 +16,9 @@ post_url = {
     'name': url
 }
 post_url = urllib.urlencode(post_url)
-new_url = post_url + '&order=ch_add_like&value=150'
+new_url = post_url + '&order=ch_add_like&value=100'
 print 'Ready. Start liking in 30minutes.'
-time.sleep(60 * 60)
+time.sleep(30 * 60)
 s.post("http://www.hzlike.com/index.php?ch_add_likes", new_url, headers=headers)
 print 'Done 100 likes.'
 new_url = post_url + '&order=ch_add_like&value=200'
