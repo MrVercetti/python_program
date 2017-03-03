@@ -88,5 +88,5 @@ res.columns = [u'日期', u'账户', u'媒体', u'CID', u'Impression', u'Click',
 print res
 res.to_csv("C:/Users/donq2/Desktop/Facebook Daily Report - {:%Y.%m.%d}.csv".format(yesterday), index=False,
            encoding='gbk')
-# map(os.remove, files)
+map(os.remove, files)
 print "All Done~"

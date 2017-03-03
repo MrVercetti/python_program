@@ -4,6 +4,7 @@
 __author__ = "DonQ"
 
 from facebookads import objects
+from facebookads.adobjects.campaign import Campaign
 from facebookads.api import FacebookAdsApi
 
 my_app_id = '1251527148216435'
@@ -16,13 +17,16 @@ proxies = {
     'https': 'http://101.251.219.122:7070'
 }
 FacebookAdsApi.init(my_app_id, my_app_secret, my_access_token, proxies=proxies)
-me = objects.AdUser(fbid='me')
-my_accounts = list(me.get_ad_accounts())
-print my_accounts
-print type(my_accounts[0])
-my_account = my_accounts[0]
-print my_account
-campaign = objects.Campaign(parent_id=my_account.get_id_assured())
-campaign[objects.Campaign.Field.name] = "Potato Campain"  # sic
-campaign[objects.Campaign.Field.configured_status] = objects.Campaign.Status.paused
-campaign.remote_create()
+# me = objects.AdUser(fbid='me')
+# my_accounts = list(me.get_ad_accounts())
+# print my_accounts
+# print type(my_accounts[0])
+campaign = Campaign(parent_id='act_117254168798866')
+campaign.update({
+    Campaign.Field.name: 'My Campaign',
+    Campaign.Field.objective: Campaign.Objective.link_clicks,
+})
+
+Campaign.remote_create(params={
+    'status': Campaign.Status.paused,
+})
