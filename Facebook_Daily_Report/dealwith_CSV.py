@@ -13,7 +13,7 @@ import pandas as pd
 def insert_columns(df, file_name):
     df[u'ctr'] = df[u'点击量（全部）'] / df[u'展示']
     df[u'cvr'] = df[u'移动应用安装'] / df[u'点击量（全部）']
-    df[u'cpa'] = df[u'移动应用安装'] / df[u'总费用']
+    df[u'cpa'] = df[u'总费用'] / df[u'移动应用安装']
     df[u'日期'] = str(yesterday)
     if u"Appcoach 报告" in file_name:
         df[u'媒体'] = u'FBpapaya'

@@ -26,7 +26,7 @@ df['结算CPA'] = 0.3
 df['Revenue'] = df['结算CPA'] * df['移动应用安装']
 df['Margin'] = df['Revenue'] - df['总费用 (USD)']
 df = df.loc[:,
-     ['报告开始时间', '项目名称', '国家', '媒体', 'CID', 'OS', '展示', '点击量（全部）', '移动应用安装', '总费用 (USD)', 'CTR',
+     ['报告开始日期', '项目名称', '国家', '媒体', 'CID', 'OS', '展示', '点击量（全部）', '移动应用安装', '总费用 (USD)', 'CTR',
       'CPC', 'CVR', '实际CPA', '结算CPA', 'Revenue', 'Margin']]
 df.columns = ['日期', '项目名称', '国家', '媒体', 'CID', 'OS', 'Impression', 'Click', 'Conversion', 'Cost', 'CTR', 'CPC',
               'CVR', '实际CPA', '结算CPA', 'Revenue', 'Margin']

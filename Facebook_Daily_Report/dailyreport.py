@@ -42,7 +42,7 @@ def check_completeness():
 def insert_columns(df, file_name):
     df[u'ctr'] = df[u'点击量（全部）'] / df[u'展示']
     df[u'cvr'] = df[u'移动应用安装'] / df[u'点击量（全部）']
-    df[u'cpa'] = df[u'移动应用安装'] / df[u'总费用']
+    df[u'cpa'] = df[u'总费用'] / df[u'移动应用安装']
     df[u'日期'] = str(yesterday)
     if u"Appcoach 报告" in file_name:
         df[u'媒体'] = u'FBpapaya'
@@ -54,6 +54,7 @@ def insert_columns(df, file_name):
         df[u'媒体'] = u'FBmadhouse'
     elif u'Appcoach 蓝翰报告' in file_name:
         df[u'媒体'] = u'FB蓝翰'
+
 
 # 读取表格品并筛选参数以及选择columns
 def filter_df(csv):
