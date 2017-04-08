@@ -4,8 +4,17 @@
 __author__ = "DonQ"
 
 import pandas as pd
+import _winreg
+import os
 
-df = pd.read_csv('C:/Users/donq2/Desktop/vic.csv', encoding='utf-8')
+
+def get_desktop():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    return _winreg.QueryValueEx(key, "Desktop")[0]
+
+
+df = pd.read_csv(os.path.join(get_desktop(), 'vic.csv'), encoding='utf-8')
 
 settlement_list = {
     'AU': 3,
@@ -49,4 +58,4 @@ for i in df.index:
 df[u'margin'] = df[u'margin_cpa'] * df[u'成效 [点击后 1 天]']
 
 print df
-# df.to_csv('C:/Users/donq2/Desktop/Analysis_Vic.csv', index=False, encoding='gbk')
+df.to_csv(os.path.join(get_desktop(), 'Analysis_Vic.csv'), index=False, encoding='gbk')
