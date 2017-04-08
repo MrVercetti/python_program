@@ -24,7 +24,7 @@ for title in titles:
     web_data = driver.page_source
     soup = BeautifulSoup(web_data, 'lxml')
     images = soup.select(
-        'body > div.full-body > div > div.pages-col > div.double-block > div > div > div.artikel > div.block-display > div.single-img > img')
+        'body > div.full-body > div > div.pages-col > div.double-block > div > div > div.artikel > div.block-display > div.single-img_original > img_original')
     if images != []:
         time.sleep(2)
         fb = soup.select(

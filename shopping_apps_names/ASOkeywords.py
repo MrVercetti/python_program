@@ -53,9 +53,7 @@ driver.find_element_by_css_selector('#password').send_keys(password)
 driver.find_element_by_id("submit").click()
 time.sleep(2)
 
-# raw_input('Please login, then press enter.')
-
 for link in ASO_links:
-    time.sleep(random.randint(1, 10))
+    time.sleep(random.randint(20, 30))
     driver.get(link)
     collect_keywords()

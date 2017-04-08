@@ -12,8 +12,8 @@ __author__ = "DonQ"
 #
 # web_data = requests.get(url).text
 # Soup = BeautifulSoup(web_data, 'lxml')
-# # for i in Soup.find_all('div'):
-# #     print i
+# # for adset_name in Soup.find_all('div'):
+# #     print adset_name
 #
 # """
 # http://vshow.me/data/mvData?pn=2&rn=10
@@ -22,13 +22,13 @@ __author__ = "DonQ"
 # url2 = 'http://vshow.me/data/mvData?pn=2&rn=10'
 # html = requests.get(url2).text
 # html = json.loads(html)
-# for i in html['body']['mvData']:
-#     print i['play_url']
-#     print i['play_count']
-#     print i['img_url']
-#     print i['source_url']
-#     # for i in i:
-#     #     print i, ':', i[i]
+# for adset_name in html['body']['mvData']:
+#     print adset_name['play_url']
+#     print adset_name['play_count']
+#     print adset_name['img_url']
+#     print adset_name['source_url']
+#     # for adset_name in adset_name:
+#     #     print adset_name, ':', adset_name[adset_name]
 #     break
 
 import pandas as pd

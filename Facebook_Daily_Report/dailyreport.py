@@ -62,7 +62,7 @@ def filter_df(csv):
     # 插入columns
     insert_columns(df, csv)
     df = df[df[u'总费用'] > 0]
-    df = df.loc[:, [u'日期', u'帐户', u'媒体', u'帐户编号', u'展示', u'点击量（全部）', u'移动应用安装', u'ctr', u'cvr', u'cpa', u'总费用']]
+    df = df.loc[:, [u'日期', u'帐户名称', u'媒体', u'帐户编号', u'展示', u'点击量（全部）', u'移动应用安装', u'ctr', u'cvr', u'cpa', u'总费用']]
     return df
 
 
@@ -86,7 +86,27 @@ files = map(lambda x: os.path.join(base, x.decode('gbk')), files_names)
 joint_list = map(filter_df, files)
 res = pd.concat(joint_list, axis=0, ignore_index=True)
 res.columns = [u'日期', u'账户', u'媒体', u'CID', u'Impression', u'Click', u'Conversion', u'CTR', u'CVR', u'CPA', u'Cost']
+
+# 降序排列
+res = res.sort_values(by='Cost', ascending=False)
+
+# 新建最后一行
+df_tail = pd.DataFrame(index=[0], columns=res.columns)
+df_tail.loc[0, u'日期'] = str(yesterday)
+df_tail.loc[0, u'账户'] = u'汇总'
+df_tail.loc[0, u'Impression'] = res[u'Impression'].sum()
+df_tail.loc[0, u'Click'] = res[u'Click'].sum()
+df_tail.loc[0, u'Conversion'] = res[u'Conversion'].sum()
+df_tail.loc[0, u'Cost'] = res[u'Cost'].sum()
+df_tail[u'CTR'] = df_tail[u'Click'] / df_tail[u'Impression']
+df_tail[u'CVR'] = df_tail[u'Conversion'] / df_tail[u'Click']
+df_tail[u'CPA'] = df_tail[u'Cost'] / df_tail[u'Conversion']
+# print df_tail
+
+# 拼接最后一行
+res = pd.concat([res, df_tail], axis=0, ignore_index=True)
 print res
+
 res.to_csv("C:/Users/donq2/Desktop/Facebook Daily Report - {:%Y.%m.%d}.csv".format(yesterday), index=False,
            encoding='gbk')
 map(os.remove, files)

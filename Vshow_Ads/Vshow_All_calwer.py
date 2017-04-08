@@ -45,7 +45,7 @@ error_times = 0
 base = 'http://vshow.me'
 s = requests.session()
 s.get(base)
-url_list = ['http://vshow.me/data/mvData?pn={pn}&rn=10'.format(pn=pn) for pn in range(1, 10000)]
+url_list = ['http://vshow.me/data/mvData?pn={pn}&rn=10'.format(pn=pn) for pn in range(1, 100000)]
 
 index = 0
 for url in url_list:
@@ -53,7 +53,7 @@ for url in url_list:
     for i in data:
         print i['img_url']
         print i['v_id']
-        get_img(i)
+        # get_img(adset_name)
         print "Done~"
     df = pd.DataFrame(data)
     df.to_csv('vshow_data/vshow_{index}.csv'.format(index=index), index=False, encoding='utf-8')

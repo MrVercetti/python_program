@@ -81,13 +81,23 @@ def get_read_data(title, tag, link):
         # print selector_comments_count
         comments_count = read_soup.select(selector_comments_count)[0].get_text()
         # print comments_count
-        # print
+
+        adult_popup = read_soup.find('p', {'class': 'adult-popup__age'})
+        if adult_popup:
+            adult_popup = adult_popup.get_text()
+        else:
+            adult_popup = u'Just For Kids'
+            # print adult_popup
+
+            # print
     except Exception:
         error_times += 1
         if error_times == 4:
             share_count = u''
+            print share_count
             image = []
             comments_count = u''
+            adult_popup = u''
             error_times = 0
         else:
             time.sleep(5)
@@ -101,6 +111,7 @@ def get_read_data(title, tag, link):
         'share_count': share_count,
         'image': image,
         'comments_count': comments_count,
+        'adult_popup': adult_popup,
     }
     if tag:
         data['tag'] = tag[0].get_text()
@@ -113,7 +124,7 @@ def get_read_data(title, tag, link):
 
 
 # 处理url日期参数
-How_long = 3
+How_long = int(raw_input('How long: '))
 dates = [
     [(datetime.datetime.now() - datetime.timedelta(i)).strftime(("%Y,%m,%d"))][0].split(',')
     for i in

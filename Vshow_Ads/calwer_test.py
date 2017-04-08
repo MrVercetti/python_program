@@ -12,9 +12,9 @@ url = 'http://vshow.me/'
 s = requests.session()
 web_data = s.get(url)
 soup = BeautifulSoup(web_data.content, 'lxml')
-links = soup.select("body > div > div > div.list.cf > div > a.cover")
-images = soup.select("body > div > div > div.list.cf > div > a.cover > img")
-playnum_list = soup.select("body > div > div > div.list.cf > div > a.sec.cf > span.playnum")
+links = soup.select("body > div > div > div.title_words.cf > div > a.cover")
+images = soup.select("body > div > div > div.title_words.cf > div > a.cover > img_original")
+playnum_list = soup.select("body > div > div > div.title_words.cf > div > a.sec.cf > span.playnum")
 index = 0
 for link, image, playnum in zip(links, images, playnum_list):
     if int(playnum.get_text()) > 10000:
