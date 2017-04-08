@@ -21,6 +21,7 @@ with open('fuck.html', 'r') as web_data:
             image = image.attrs['src']
         except:
             image = image.attrs['image-src']
+        image = re.findall(r'(.*)_220x220\.jpg', image)[0]
         # print image
 
         # sku
@@ -48,14 +49,20 @@ with open('fuck.html', 'r') as web_data:
         # print unit
 
         # 好评率 rate-percent
-        rate_percent = item.select('div > div.info > div > span.star.star-s')[0].attrs['title']
-        rate_percent = re.findall(r'Star Rating: (.*) out of 5', rate_percent)[0]
+        try:
+            rate_percent = item.select('div > div.info > div > span.star.star-s')[0].attrs['title']
+            rate_percent = re.findall(r'Star Rating: (.*) out of 5', rate_percent)[0]
+        except:
+            rate_percent = u''
         # print rate_percent
 
         # 评论数量 rate-num
-        rate_num = item.select('div > div.info > div > a')[0].get_text()
-        rate_num = re.findall(r'\((\d*)\)', rate_num)[0]
-        # print rate_num
+        try:
+            rate_num = item.select('div > div.info > div > a')[0].get_text()
+            rate_num = re.findall(r'\((\d*)\)', rate_num)[0]
+        except:
+            rate_num = u''
+            # print rate_num
 
         # 下单量 order-num
         order_num = item.select('div > div.info > div > span.order-num > a > em')[0].get_text()
@@ -93,4 +100,4 @@ with open('fuck.html', 'r') as web_data:
         df = pd.concat([df, df_data], axis=0, ignore_index=True)
 
 print df
-df.to_csv('text.csv', index=False, encoding='utf-8')
+# df.to_csv('text.csv', index=False, encoding='utf-8')

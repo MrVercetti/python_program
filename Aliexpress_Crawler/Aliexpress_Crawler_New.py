@@ -8,28 +8,36 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import re
+import pandas as pd
 
 
+# 获取一页商品列表
 def get_listitem(url):
+    global try_times
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'lxml')
     list_item = soup.select('#list-items > ul > li')
     if list_item:
-        print 'Successed~'
         for item in list_item:
             get_item(item)
+            try_times = 0
     else:
         time.sleep(5)
+        try_times += 1
+        print 'try time:', try_times
         get_listitem(url)
 
 
+# 提取每个商品的信息
 def get_item(item):
-    # 商品缩略图 image
+    global df
+    # 商品图 image
     image = item.select('div > div.img.img-border > div > a > img')[0]
     try:
         image = image.attrs['src']
     except:
         image = image.attrs['image-src']
+    image = re.findall(r'(.*)_220x220\.jpg', image)[0]
     # print image
 
     # sku
@@ -57,13 +65,19 @@ def get_item(item):
     # print unit
 
     # 好评率 rate-percent
-    rate_percent = item.select('div > div.info > div > span.star.star-s')[0].attrs['title']
-    rate_percent = re.findall(r'Star Rating: (.*) out of 5', rate_percent)[0]
+    try:
+        rate_percent = item.select('div > div.info > div > span.star.star-s')[0].attrs['title']
+        rate_percent = re.findall(r'Star Rating: (.*) out of 5', rate_percent)[0]
+    except:
+        rate_percent = u''
     # print rate_percent
 
     # 评论数量 rate-num
-    rate_num = item.select('div > div.info > div > a')[0].get_text()
-    rate_num = re.findall(r'\((\d*)\)', rate_num)[0]
+    try:
+        rate_num = item.select('div > div.info > div > a')[0].get_text()
+        rate_num = re.findall(r'\((\d*)\)', rate_num)[0]
+    except:
+        rate_num = u''
     # print rate_num
 
     # 下单量 order-num
@@ -97,11 +111,48 @@ def get_item(item):
         'store-link': store_link,
     }
     print data
+    print
+
+    # 写入DataFrame
+    df_data = pd.DataFrame(data, [0])
+    df = pd.concat([df, df_data], axis=0, ignore_index=True)
 
 
-url = 'https://www.aliexpress.com/category/200003482/dresses/1.html?site=glo&g=y&SortType=total_tranpro_desc&needQuery=n&tc=af&tag='
+# 登录信息
+login_url = 'https://login.aliexpress.com'
+loginid = 'don.qiu@appcoachs.com'
+password = 'Donqiu2017'
 
+# 链接列表
+list_url = map(lambda
+                   page: 'https://www.aliexpress.com/category/200003482/dresses/{page}.html?site=glo&g=y&SortType=total_tranpro_desc&needQuery=n&tc=af&tag='.format(
+    page=page), range(1, 11))
+
+# 尝试次数
+try_times = 0
+
+# 初始化列表字段
+df = pd.DataFrame(
+    columns=[u'image', u'sku', u'product-name', u'product-link', u'price', u'unit', u'rate-percent', u'rate-num',
+             u'order-num', u'store-name', u'store-link'])
+
+# 打开浏览器
 driver = webdriver.Chrome()
 driver.maximize_window()
 
-get_listitem(url)
+# 模拟登陆
+driver.get(login_url)
+driver.switch_to.frame('alibaba-login-box')
+driver.find_element_by_id('fm-login-id').send_keys(loginid)
+driver.find_element_by_id('fm-login-password').send_keys(password)
+driver.find_element_by_id('fm-login-submit').click()
+time.sleep(5)
+
+# 抓取信息
+for url in list_url:
+    get_listitem(url)
+    time.sleep(10)
+
+# 写入本地
+print df
+df.to_csv('Aliexpress-Dresses.csv', index=False, encoding='utf-8')
