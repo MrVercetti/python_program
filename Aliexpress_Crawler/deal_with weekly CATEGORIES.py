@@ -4,8 +4,19 @@
 __author__ = "DonQ"
 
 import re
-
+import _winreg
 from bs4 import BeautifulSoup
+import pandas as pd
+import os
+
+
+def get_desktop():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    return _winreg.QueryValueEx(key, "Desktop")[0].encode('utf-8')
+
+
+df = pd.DataFrame(columns=[u'cate_header', u'image', u'link', u'price', u'title'])
 
 with open('Weekly Bestselling.html', 'r') as web_data:
     soup = BeautifulSoup(web_data, 'lxml')
@@ -39,7 +50,19 @@ with open('Weekly Bestselling.html', 'r') as web_data:
             price = j.find('div', {'class': 'price'}).get_text()
             # print price
 
-            # break
-        print
-        print
-        # break
+            # 数据打包
+            data = {
+                'link': link,
+                'image': image,
+                'title': title,
+                'price': price,
+                'cate_header': cate_header,
+            }
+            # print data
+
+            df_data = pd.DataFrame(data, [0])
+            df = pd.concat([df, df_data], axis=0, ignore_index=True)
+
+print df
+store_path = os.path.join(get_desktop(), 'Weekly Categories.csv')
+df.to_csv(store_path, index=False, encoding='utf-8')
