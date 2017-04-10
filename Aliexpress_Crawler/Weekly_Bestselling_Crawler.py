@@ -31,7 +31,10 @@ driver.get(url)
 # CSS selector list
 selector_list = ['#widgetlsc2z2 > div.item-box > ul > li:nth-child({x})'.format(x=x) for x in range(1, 9)]
 for selector in selector_list:
-    driver.find_element_by_css_selector(selector).click()  # 显示完整的页面
+    driver.find_element_by_css_selector(selector).click()  # 显示完整的页面（然而并没有）
     time.sleep(1)
 
-print driver.page_source
+# 写入本地
+with open("Weekly Bestselling.html",'w') as f:
+    f.write(driver.page_source.encode('utf-8'))
+

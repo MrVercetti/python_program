@@ -40,13 +40,3 @@ with open('Weekly Bestselling.html', 'r') as web_data:
         # unit
         unit = i.find('span', {'class': 'uint'}).get_text().split(' ')[1]
         # print unit
-
-    # CATEGORIES
-    for i in soup.find_all('div', {'class': 'cate-panel'}):
-        # cate-header 标签头
-        cate_header = i.select('div.cate-header')[0].get_text()
-        # print cate_header
-
-        prime_list = i.find('ul', {'class': 'horizontal wrap prime-list'})
-
-        break
