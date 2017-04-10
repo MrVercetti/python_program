@@ -4,3 +4,9 @@
 [0408/034136.870:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
 [0408/034136.871:ERROR:exception_snapshot_win.cc(87)] thread ID 5088 not found in process
 [0408/034136.871:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0410/170851.290:ERROR:process_info.cc(625)] range at 0x60231e800000000, size 0x196 fully unreadable
+[0410/170851.291:ERROR:process_info.cc(625)] range at 0x602324800000000, size 0x196 fully unreadable
+[0410/170851.291:ERROR:process_info.cc(625)] range at 0x0, size 0x196 fully unreadable
+[0410/170851.374:ERROR:process_reader_win.cc(233)] ReadMemory at 0x19611c7e9d8 of 512 bytes failed: 仅完成部分的 ReadProcessMemory 或 WriteProcessMemory 请求。 (0x12B)
+[0410/170851.374:ERROR:crash_report_exception_handler.cc(111)] WriteEverything failed
+[0410/170851.384:ERROR:scoped_process_suspend.cc(38)] NtResumeProcess: 已尝试访问正在退出的过程。  (0xc000010a)

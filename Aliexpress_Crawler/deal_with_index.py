@@ -11,7 +11,7 @@ df = pd.DataFrame(
     columns=[u'image', u'sku', u'product-name', u'product-link', u'price', u'unit', u'rate-percent', u'rate-num',
              u'order-num', u'store-name', u'store-link'])
 
-with open('fuck.html', 'r') as web_data:
+with open('index.html', 'r') as web_data:
     soup = BeautifulSoup(web_data, 'lxml')
     list_item = soup.select('#list-items > ul > li')
     for item in list_item:

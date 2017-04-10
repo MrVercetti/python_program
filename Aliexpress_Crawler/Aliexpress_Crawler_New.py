@@ -148,11 +148,14 @@ driver.find_element_by_id('fm-login-password').send_keys(password)
 driver.find_element_by_id('fm-login-submit').click()
 time.sleep(5)
 
-# 抓取信息
-for url in list_url:
-    get_listitem(url)
-    time.sleep(10)
+# # 抓取信息
+# for url in list_url:
+#     get_listitem(url)
+#     time.sleep(10)
+#
+# # 写入本地
+# print df
+# df.to_csv('Aliexpress-Dresses.csv', index=False, encoding='utf-8')
 
-# 写入本地
-print df
-df.to_csv('Aliexpress-Dresses.csv', index=False, encoding='utf-8')
+url = 'https://www.aliexpress.com/item/SheIn-Women-Brown-Velvet-Sheath-Dresses-Summer-Ladies-Round-Neck-Short-Sleeve-Knee-Length-Elegant-Pencil/32736396056.html?ws_ab_test=searchweb0_0,searchweb201602_2_10152_10066_10151_10065_10150_10068_10136_10137_10138_10060_10062_10141_10056_10055_10054_10059_10099_10103_10102_10096_10148_10147_10052_10053_10050_10107_10142_10051_10143_10084_10083_10119_10080_10082_10081_10110_10111_10112_10113_10114_130_10078_10079_10073_10070_10123_10120_10124,searchweb201603_4,afswitch_1_afChannel,ppcSwitch_2&btsid=cf7983b6-f45d-48a7-9ee3-70c89da5d12b&algo_expid=63988efa-13e3-4c79-82b3-4dc3bea9a159-15&algo_pvid=63988efa-13e3-4c79-82b3-4dc3bea9a159'
+driver.get(url)
