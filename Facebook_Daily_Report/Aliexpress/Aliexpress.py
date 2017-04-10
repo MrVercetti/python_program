@@ -7,9 +7,24 @@ import datetime
 
 import os
 import pandas as pd
+import _winreg
+
+
+def get_downloads():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    home = os.path.split(_winreg.QueryValueEx(key, "Desktop")[0])[0]
+    return os.path.join(home, 'Downloads').encode('utf-8')
+
+
+def get_desktop():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    return _winreg.QueryValueEx(key, "Desktop")[0].encode('utf-8')
+
 
 # Aliexpress文件原始数据路径
-base = 'C:/Users/donq2/Downloads/'
+base = get_downloads()
 file_name = [x for x in os.listdir(base) if 'AC-Alibaba-Group-7' in x][0]
 file_path = os.path.join(base, file_name.decode('gbk'))
 
@@ -86,5 +101,5 @@ df = pd.concat([df, df_tail], axis=0, ignore_index=True)
 print df
 
 yesterday = datetime.date.today() - datetime.timedelta(days=1)
-df.to_csv('C:/Users/donq2/Desktop/Daily Report-Aliexpress-Facebook-{:%Y.%m.%d}.csv'.format(yesterday), index=False,
-          encoding='gbk')
+store_path = os.path.join(get_desktop(), 'Daily Report-Aliexpress-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
+df.to_csv(store_path, index=False, encoding='gbk')
