@@ -103,3 +103,5 @@ print df
 yesterday = datetime.date.today() - datetime.timedelta(days=1)
 store_path = os.path.join(get_desktop(), 'Daily Report-Aliexpress-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
+
+os.remove('file_path')
