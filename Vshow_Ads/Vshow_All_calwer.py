@@ -41,6 +41,16 @@ def get_img(video_data):
             get_img(video_data)
 
 
+def get_data():
+    try:
+        data = json.loads(s.get(url).text)['body']['mvData']
+    except:
+        print 'There are some errors. Try again.'
+        time.sleep(10)
+        get_data()
+    return data
+
+
 error_times = 0
 base = 'http://vshow.me'
 s = requests.session()
@@ -49,7 +59,7 @@ url_list = ['http://vshow.me/data/mvData?pn={pn}&rn=10'.format(pn=pn) for pn in 
 
 index = 0
 for url in url_list:
-    data = json.loads(s.get(url).text)['body']['mvData']
+    data = get_data()
     for i in data:
         print i['img_url']
         print i['v_id']
