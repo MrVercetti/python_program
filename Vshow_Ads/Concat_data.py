@@ -4,21 +4,25 @@
 __author__ = "DonQ"
 
 import os
-
+import _winreg
 import pandas as pd
 
-# base = 'C:/Users/donq2/Downloads/kika2'
-# files_names = [x for x in os.listdir(base) if 'appcoachs' in x]
-# files = map(lambda x: os.path.join(base, x), files_names)
-# joint_list = map(lambda x: pd.read_excel(x, sheetname='fb_appcoach_kika'), files)
-# res = pd.concat(joint_list, axis=0, ignore_index=True)
-# # res.to_csv('C:/Users/donq2/Desktop/kika.csv', index=False, encoding='gbk')
-# print res
+
+def get_desktop():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    return _winreg.QueryValueEx(key, "Desktop")[0]
+
+
+def concat2csv(x, y):
+    return pd.concat([x, y], axis=0, ignore_index=True)
+
 
 base = 'vshow_data'
 files_names = [x for x in os.listdir(base) if 'vshow' in x]
 files = map(lambda x: os.path.join(base, x), files_names)
 joint_list = map(pd.read_csv, files)
-res = pd.concat(joint_list, axis=0, ignore_index=True)
-res.to_csv('C:/Users/donq2/Desktop/vshow_data.csv', index=False, encoding='utf-8')
+res = reduce(concat2csv, joint_list)
+store_path = os.path.join(get_desktop(), 'vshow_data.csv')
+res.to_csv(store_path, index=False, encoding='utf-8')
 print "Done"
