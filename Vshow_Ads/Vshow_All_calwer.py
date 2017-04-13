@@ -57,6 +57,11 @@ s = requests.session()
 s.get(base)
 url_list = ['http://vshow.me/data/mvData?pn={pn}&rn=10'.format(pn=pn) for pn in range(1, 100000)]
 
+res = pd.DataFrame(columns=[u'author', u'create_time', u'duration', u'height', u'identifier',
+                            u'img_url', u'lovecard_count', u'mv_type', u'play_count', u'play_url',
+                            u'profile_url', u'share_count', u'size', u'source_url', u'title',
+                            u'u_id', u'upload_at', u'upload_time', u'v_id', u'width'])
+
 index = 0
 for url in url_list:
     data = get_data()
@@ -66,7 +71,8 @@ for url in url_list:
         # get_img(adset_name)
         print "Done~"
     df = pd.DataFrame(data)
-    df.to_csv('vshow_data/vshow_{index}.csv'.format(index=index), index=False, encoding='utf-8')
+    res = pd.concat([res, df], axis=0, ignore_index=True)
     index += 1
-    # print df
-    # break
+    if index % 10 == 0:
+        res.to_csv('vshow_data/vshow_data.csv', index=False, encoding='utf-8')
+        # print res
