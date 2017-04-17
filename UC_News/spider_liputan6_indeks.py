@@ -43,7 +43,7 @@ def get_data(url):
 
 
 def get_read_data(title, tag, link):
-    global df, error_times
+    global df, error_times, share_count, image, comments_count, adult_popup
     try:
         title = title[0].get_text()
         link = link[0].attrs["href"]
