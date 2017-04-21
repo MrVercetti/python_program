@@ -78,3 +78,9 @@ for i in df_res.index:
 print df_res.loc[:, ['Ad Set Name', 'Ad Name', 'Template URL']]
 
 df_res.to_csv(os.path.join(get_desktop(), 'VshowUpload.csv'), index=False, encoding='utf-8')
+
+"""
+Campaign Status
+Ad Set Run Status
+Ad Status
+"""
