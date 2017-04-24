@@ -65,15 +65,15 @@ df[u'媒体'] = u'facebook'
 df[u'cid'] = u'762587770589717'
 df[u'ctr'] = df[u'点击量（全部）'] / df[u'展示']
 df[u'cpc'] = df[u'总费用 (USD)'] / df[u'点击量（全部）']
-df[u'cvr'] = df[u'成效 [点击后 1 天]'] / df[u'点击量（全部）']
-df[u'cpa'] = df[u'总费用 (USD)'] / df[u'成效 [点击后 1 天]']
+df[u'cvr'] = df[u'移动应用安装 [点击后 1 天]'] / df[u'点击量（全部）']
+df[u'cpa'] = df[u'总费用 (USD)'] / df[u'移动应用安装 [点击后 1 天]']
 for i in df.index:
     df.loc[i, u'结算cpa'] = settlement[df.loc[i, u'国家/地区']]
-df[u'revenue'] = df[u'结算cpa'] * df[u'成效 [点击后 1 天]']
+df[u'revenue'] = df[u'结算cpa'] * df[u'移动应用安装 [点击后 1 天]']
 df[u'margin'] = df[u'revenue'] - df[u'总费用 (USD)']
 df = df.sort_values(by=[u'国家/地区', u'报告开始日期'], ascending=True)
 df = df.loc[:,
-     [u'国家/地区', u'项目名称', u'报告开始日期', u'媒体', u'cid', u'展示', u'点击量（全部）', u'成效 [点击后 1 天]',
+     [u'国家/地区', u'项目名称', u'报告开始日期', u'媒体', u'cid', u'展示', u'点击量（全部）', u'移动应用安装 [点击后 1 天]',
       u'总费用 (USD)', u'ctr', u'cpc', u'cvr', u'cpa', u'结算cpa', u'revenue', u'margin']]
 df.columns = [u'国家', u'项目名称', u'日期', u'媒体', u'CID', u'Impression', u'Click',
               u'Conversion', u'Cost', u'CTR', u'CPC', u'CVR', u'实际CPA', u'结算CPA',
