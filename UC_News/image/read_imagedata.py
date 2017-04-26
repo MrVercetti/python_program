@@ -25,4 +25,8 @@ for i in df.index:
     if "k" in df.loc[i, 'share_count']:
         image_url = df.loc[i, 'image']
         urllib.urlretrieve(image_url, 'raw_image.jpg')
-        image_processing('raw_image.jpg', df.loc[i, 'title'])
+        try:
+            image_processing('raw_image.jpg', df.loc[i, 'title'])
+        except:
+            print "Something Wrong."
+            pass
