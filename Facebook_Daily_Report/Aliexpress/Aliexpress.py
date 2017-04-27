@@ -100,7 +100,7 @@ df_tail.loc[0, u'Margin'] = df[u'Margin'].sum()
 df = pd.concat([df, df_tail], axis=0, ignore_index=True)
 print df
 
-yesterday = datetime.date.today() - datetime.timedelta(days=1)
+yesterday = datetime.date.today() - datetime.timedelta(days=2)
 store_path = os.path.join(get_desktop(), 'Daily Report-Aliexpress-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
 
