@@ -23,17 +23,14 @@ def get_desktop():
 
 
 settlement = {
-    'TW': 1,
-    'HK': 1,
-    'MO': 1,
-    'IN': 0.3,
+    'ID': 0.3,
 }
 
-name = 'TIKI'
-CID = '1288405044590901'
-OS = 'IOS'
+name = 'Vshow'
+CID = '893784690758264'
+OS = 'Android'
 
-keyword = "HangZhou-Friends-Technology-Co.Ltd.3"
+keyword = "VShow"
 
 for i in os.listdir(get_downloads()):
     if keyword in i:
@@ -85,7 +82,7 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 yesterday = yesterday.strftime('%Y.%m.%d')
 
 store_path = os.path.join(get_desktop(),
-                          'Daily Report-{name}-Facebook-{yesterday}.csv'.format(name=name, yesterday=yesterday))
+                          'Daily Report-{name}4-Facebook-{yesterday}.csv'.format(name=name, yesterday=yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
 
 os.remove(file_path)

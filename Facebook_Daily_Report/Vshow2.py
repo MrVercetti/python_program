@@ -38,6 +38,7 @@ df['实际CPA'] = df['总费用 (USD)'] / df['移动应用安装']
 df['结算CPA'] = 0.3
 df['Revenue'] = df['结算CPA'] * df['移动应用安装']
 df['Margin'] = df['Revenue'] - df['总费用 (USD)']
+df = df.sort_values(by=['国家/地区', '报告开始日期'], ascending=True)
 df = df.loc[:,
      ['报告开始日期', '项目名称', '国家/地区', '媒体', 'CID', 'OS', '展示次数', '点击量（全部）', '移动应用安装', '总费用 (USD)', 'CTR',
       'CPC', 'CVR', '实际CPA', '结算CPA', 'Revenue', 'Margin']]
@@ -66,7 +67,7 @@ df_tail.loc[0, 'Margin'] = df['Margin'].sum()
 df = pd.concat([df, df_tail], axis=0, ignore_index=True)
 print df
 
-store_path = os.path.join(get_desktop(), 'Daily Report-Vshow-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
+store_path = os.path.join(get_desktop(), 'Daily Report-Vshow2-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
 
 os.remove(vshow[0])
