@@ -22,7 +22,7 @@ time.sleep(30 * 60)
 s.post('http://www.hzlike.com/index.php/user/login', 'username=q_miranda&password=q_miranda14', headers=headers)
 s.post("http://www.hzlike.com/index.php?ch_add_likes", new_url, headers=headers)
 print 'Done 100 likes.'
-new_url = post_url + '&order=ch_add_like&value=200'
+new_url = post_url + '&order=ch_add_like&value=300'
 print 'Start liking in 60minutes.'
 time.sleep(60 * 60)
 s.post("http://www.hzlike.com/index.php?ch_add_likes", new_url, headers=headers)
