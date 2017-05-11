@@ -22,22 +22,37 @@ def get_desktop():
     return _winreg.QueryValueEx(key, "Desktop")[0].encode('utf-8')
 
 
-yesterday = datetime.date.today() - datetime.timedelta(days=1)
-base = get_downloads()
-vshow = [x for x in os.listdir(base) if 'VSHOW' in x]
-vshow = map(lambda x: os.path.join(base, x.decode('gbk')), vshow)
-df = pd.read_csv(vshow[0])
-df['项目名称'] = 'Vshow'
+settlement = {
+    'TW': 1,
+    'HK': 1,
+    'MO': 1,
+    'IN': 0.3,
+}
+
+name = 'TIKI'
+CID = '1288405044590901'
+OS = 'IOS'
+
+keyword = "HangZhou-Friends-Technology-Co.Ltd.3"
+
+for i in os.listdir(get_downloads()):
+    if keyword in i:
+        TIKI = os.path.join(get_downloads(), i.decode('gbk'))
+
+df = pd.read_csv(TIKI)
+
+df['项目名称'] = name
 df['媒体'] = 'Facebook'
-df['CID'] = '899593780177355'
-df['OS'] = 'Android'
+df['CID'] = CID
+df['OS'] = OS
 df['CTR'] = df['点击量（全部）'] / df['展示次数']
 df['CPC'] = df['总费用 (USD)'] / df['点击量（全部）']
 df['CVR'] = df['移动应用安装'] / df['点击量（全部）']
 df['实际CPA'] = df['总费用 (USD)'] / df['移动应用安装']
-df['结算CPA'] = 0.3
+df['结算CPA'] = df['国家/地区'].map(settlement.get)
 df['Revenue'] = df['结算CPA'] * df['移动应用安装']
 df['Margin'] = df['Revenue'] - df['总费用 (USD)']
+df = df.sort_values(by=['国家/地区', '报告开始日期'], ascending=True)
 df = df.loc[:,
      ['报告开始日期', '项目名称', '国家/地区', '媒体', 'CID', 'OS', '展示次数', '点击量（全部）', '移动应用安装', '总费用 (USD)', 'CTR',
       'CPC', 'CVR', '实际CPA', '结算CPA', 'Revenue', 'Margin']]
@@ -47,10 +62,10 @@ df.columns = ['日期', '项目名称', '国家', '媒体', 'CID', 'OS', 'Impres
 # 添加汇总
 df_tail = pd.DataFrame(index=[0], columns=df.columns)
 df_tail.loc[0, '日期'] = '汇总'
-df_tail.loc[0, '项目名称'] = 'Vshow'
+df_tail.loc[0, '项目名称'] = name
 df_tail.loc[0, '媒体'] = 'Facebook'
-df_tail.loc[0, 'CID'] = '899593780177355'
-df_tail.loc[0, 'OS'] = 'Android'
+df_tail.loc[0, 'CID'] = CID
+df_tail.loc[0, 'OS'] = OS
 df_tail.loc[0, 'Impression'] = df['Impression'].sum()
 df_tail.loc[0, 'Click'] = df['Click'].sum()
 df_tail.loc[0, 'Conversion'] = df['Conversion'].sum()
@@ -66,7 +81,8 @@ df_tail.loc[0, 'Margin'] = df['Margin'].sum()
 df = pd.concat([df, df_tail], axis=0, ignore_index=True)
 print df
 
-store_path = os.path.join(get_desktop(), 'Daily Report-Vshow-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
+yesterday = datetime.date.today() - datetime.timedelta(days=1)
+store_path = os.path.join(get_desktop(), 'Daily Report-TIKI-Facebook-{:%Y.%m.%d}.csv'.format(yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
 
-os.remove(vshow[0])
+os.remove(TIKI)
