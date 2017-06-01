@@ -53,7 +53,16 @@ driver.find_element_by_css_selector('#password').send_keys(password)
 driver.find_element_by_id("submit").click()
 time.sleep(2)
 
+"""
+原始
 for link in ASO_links:
     time.sleep(random.randint(20, 30))
     driver.get(link)
     collect_keywords()
+"""
+
+for link in ASO_links:
+    if 'live' in link:
+        time.sleep(random.randint(20, 30))
+        driver.get(link)
+        collect_keywords()

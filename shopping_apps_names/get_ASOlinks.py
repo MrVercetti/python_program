@@ -20,8 +20,11 @@ with open('hehe.html', 'r') as web_data:
             f.path.segments.pop()
             f.path.segments.pop()
             f.path.segments.append('keywords')
-            print f.url
-            ASO_links.append(f.url)
+            # print f.url
+            fuck = f.url+'/#countries=TW'  # 临时添加 增加地区，默认为美国
+            print fuck  # 临时添加
+            # ASO_links.append(f.url)
+            ASO_links.append(fuck)  # 临时添加
         except:
             pass
         with open('ASO_links.pkl', 'w') as fp:
