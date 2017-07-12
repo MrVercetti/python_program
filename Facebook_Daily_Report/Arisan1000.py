@@ -3,9 +3,10 @@
 
 __author__ = "DonQ"
 
+import _winreg
 import datetime
 import os
-import _winreg
+
 import pandas as pd
 
 
@@ -23,14 +24,15 @@ def get_desktop():
 
 
 settlement = {
-    'ID': 0.3,
+    'ID': 0.45,
+    'IN': 0,
 }
 
-name = 'Vshow'
-CID = '1011434715659927'
+name = 'Arisan1000'
+CID = '1060648724071859'
 OS = 'Android'
 
-keyword = "VShow"
+keyword = "Quintiles-Enterprise"
 
 for i in os.listdir(get_downloads()):
     if keyword in i:
@@ -82,7 +84,7 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 yesterday = yesterday.strftime('%Y.%m.%d')
 
 store_path = os.path.join(get_desktop(),
-                          'Daily Report-{name}5-Facebook-{yesterday}.csv'.format(name=name, yesterday=yesterday))
+                          'Daily Report-{name}-Facebook-{yesterday}.csv'.format(name=name, yesterday=yesterday))
 df.to_csv(store_path, index=False, encoding='gbk')
 
 os.remove(file_path)
