@@ -4,8 +4,14 @@
 __author__ = "DonQ"
 
 import re
-
+import _winreg
+import urllib
 from bs4 import BeautifulSoup
+
+def get_desktop():
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    return _winreg.QueryValueEx(key, "Desktop")[0].encode('utf-8')
 
 with open('product.html', 'r') as web_data:
     soup = BeautifulSoup(web_data, 'lxml')
@@ -53,6 +59,9 @@ with open('product.html', 'r') as web_data:
         img_thumb_item = img_thumb_item.img.attrs['src']
         img_thumb_item = re.findall(r'(.*)_50x50\.jpg', img_thumb_item)[0]
         print img_thumb_item
+        urllib.urlretrieve(img_thumb_item, 'C:\\Users\\donq2\\Desktop\\fuck')
+        # print 'Done.'
+
 
     print
 
@@ -62,3 +71,4 @@ with open('product.html', 'r') as web_data:
         item_sku_image = item_sku_image.a.img.attrs['src']
         item_sku_image = re.findall(r'(.*)_50x50\.jpg', item_sku_image)[0]
         print item_sku_image
+print get_desktop()
