@@ -4,6 +4,8 @@
 __author__ = "DonQ"
 
 import _winreg
+import datetime
+import os
 import re
 import time
 import urllib
@@ -22,8 +24,12 @@ def get_product_info(url):
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'lxml')
     # 产品名字 product-name
-    product_name = soup.find('h1', {'class': 'product-name'}).get_text()
+    product_name = soup.find('span', {'class': 'img-thumb-item'}).find('img').attrs['alt']
     print product_name
+
+    # 生成文件夹
+    product_dir = os.path.join(desk_dir, product_name)
+    os.mkdir(product_dir)
 
     # 评分 percent-num
     percent_num = soup.find('span', {'class': 'percent-num'}).get_text()
@@ -58,26 +64,54 @@ def get_product_info(url):
     discount_rate = soup.find('span', {'class': 'p-discount-rate'}).get_text()
     print 'discount_rate: ', discount_rate
 
+    # 写入商品信息
+    info_path = os.path.join(product_dir, 'info.txt')
+    with open(info_path, 'w') as fp:
+        fp.write(product_name)
+        fp.write('\n')
+        fp.write('percent-num: {percent_num}'.format(percent_num=percent_num))
+        fp.write('\n')
+        fp.write('rantings-num: {rantings_num}'.format(rantings_num=rantings_num))
+        fp.write('\n')
+        fp.write('order-num: {order_num}'.format(order_num=order_num))
+        fp.write('\n')
+        fp.write('price: {price}'.format(price=price))
+        fp.write('\n')
+        fp.write('discount_price: {discount_price}'.format(discount_price=discount_price))
+        fp.write('\n')
+        fp.write('discount_rate: {discount_rate}'.format(discount_rate=discount_rate))
+        fp.write('\n')
+
     print "img_thumb_item: "
     # 图片缩略图 img-thumb-item
-    for img_thumb_item in soup.find_all('span', {'class': 'img-thumb-item'}):
+    for index, img_thumb_item in enumerate(soup.find_all('span', {'class': 'img-thumb-item'})):
         img_thumb_item = img_thumb_item.img.attrs['src']
         img_thumb_item = re.findall(r'(.*)_50x50\.jpg', img_thumb_item)[0]
         print img_thumb_item
-        urllib.urlretrieve(img_thumb_item, get_desktop())
-        print 'Done.'
+        store_path = os.path.join(product_dir, 'img_thumb_item_{index}.jpg'.format(index=index))
+        urllib.urlretrieve(img_thumb_item, store_path)
+        print "Done"
+        index += 1
 
     print
 
     print 'item_sku_image: '
     # 图片SKU缩略图 item-sku-image
-    for item_sku_image in soup.find_all('li', {'class': 'item-sku-image'}):
+    for index, item_sku_image in enumerate(soup.find_all('li', {'class': 'item-sku-image'})):
         item_sku_image = item_sku_image.a.img.attrs['src']
         item_sku_image = re.findall(r'(.*)_50x50\.jpg', item_sku_image)[0]
         print item_sku_image
+        store_path = os.path.join(product_dir, 'item_sku_image_{index}.jpg'.format(index=index))
+        urllib.urlretrieve(item_sku_image, store_path)
+        print "Done"
+        index += 1
 
 
-url = 'https://www.aliexpress.com/item/SheIn-Women-Brown-Velvet-Sheath-Dresses-Summer-Ladies-Round-Neck-Short-Sleeve-Knee-Length-Elegant-Pencil/32736396056.html?ws_ab_test=searchweb0_0,searchweb201602_2_10152_10066_10151_10065_10150_10068_10136_10137_10138_10060_10062_10141_10056_10055_10054_10059_10099_10103_10102_10096_10148_10147_10052_10053_10050_10107_10142_10051_10143_10084_10083_10119_10080_10082_10081_10110_10111_10112_10113_10114_130_10078_10079_10073_10070_10123_10120_10124,searchweb201603_4,afswitch_1_afChannel,ppcSwitch_2&btsid=cf7983b6-f45d-48a7-9ee3-70c89da5d12b&algo_expid=63988efa-13e3-4c79-82b3-4dc3bea9a159-15&algo_pvid=63988efa-13e3-4c79-82b3-4dc3bea9a159'
+# url = 'https://www.aliexpress.com/item/SheIn-Women-Brown-Velvet-Sheath-Dresses-Summer-Ladies-Round-Neck-Short-Sleeve-Knee-Length-Elegant-Pencil/32736396056.html?ws_ab_test=searchweb0_0,searchweb201602_2_10152_10066_10151_10065_10150_10068_10136_10137_10138_10060_10062_10141_10056_10055_10054_10059_10099_10103_10102_10096_10148_10147_10052_10053_10050_10107_10142_10051_10143_10084_10083_10119_10080_10082_10081_10110_10111_10112_10113_10114_130_10078_10079_10073_10070_10123_10120_10124,searchweb201603_4,afswitch_1_afChannel,ppcSwitch_2&btsid=cf7983b6-f45d-48a7-9ee3-70c89da5d12b&algo_expid=63988efa-13e3-4c79-82b3-4dc3bea9a159-15&algo_pvid=63988efa-13e3-4c79-82b3-4dc3bea9a159'
+
+# 生成桌面文件夹
+desk_dir = os.path.join(get_desktop(), 'Aliexpress-{:%Y.%m.%d}'.format(datetime.date.today()))
+os.mkdir(desk_dir)
 
 # 登录信息
 login_url = 'https://login.aliexpress.com'
@@ -99,4 +133,8 @@ driver.find_element_by_id('fm-login-password').send_keys(password)
 driver.find_element_by_id('fm-login-submit').click()
 time.sleep(5)
 
-get_product_info(url)
+file_path = os.path.join(get_desktop(), 'shit.txt')
+with open(file_path, 'r') as fp:
+    for line in fp.readlines():
+        print line
+        get_product_info(line)
