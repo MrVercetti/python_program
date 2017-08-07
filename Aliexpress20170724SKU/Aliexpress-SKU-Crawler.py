@@ -133,7 +133,7 @@ driver.find_element_by_id('fm-login-password').send_keys(password)
 driver.find_element_by_id('fm-login-submit').click()
 time.sleep(5)
 
-file_path = os.path.join(get_desktop(), 'shit.txt')
+file_path = os.path.join(get_desktop(), 'fuck.txt')
 with open(file_path, 'r') as fp:
     for line in fp.readlines():
         print line
