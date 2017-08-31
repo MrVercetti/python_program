@@ -66,7 +66,7 @@ def image_processing(image_path, title):
         font = ImageFont.truetype('C:\Windows\Fonts\consola.ttf', 42)
         draw.text((160, 510), title1, (255, 255, 255), font=font)
         draw.text((160, 560), title2, (255, 255, 255), font=font)
-    # img_original.show()
+    img_original.show()
 
     # 存储图片
     image_store_path = os.path.join(store_path, 'UCNews{index_number}_{date}.jpg'.format(index_number=index_number,
@@ -81,7 +81,7 @@ def image_processing(image_path, title):
 index_number = 1
 
 # 创建存储路径
-store_path = 'C:/Users/donq2/Desktop/UCNewsAD_{date}'.format(date=datetime.datetime.now().strftime(("%Y-%m-%d")))
+store_path = 'C:/Users/donq/Desktop/UCNewsAD_{date}'.format(date=datetime.datetime.now().strftime(("%Y-%m-%d")))
 os.mkdir(store_path)
 
 if __name__ == '__main__':
