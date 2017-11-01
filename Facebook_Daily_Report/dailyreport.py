@@ -42,7 +42,7 @@ def check_completeness():
 def insert_columns(df, file_name):
     df[u'ctr'] = df[u'点击量（全部）'] / df[u'展示次数']
     df[u'cvr'] = df[u'移动应用安装'] / df[u'点击量（全部）']
-    df[u'cpa'] = df[u'总费用'] / df[u'移动应用安装']
+    df[u'cpa'] = df[u'当前花费上限'] / df[u'移动应用安装']
     df[u'日期'] = str(yesterday)
     if u"Appcoach 报告" in file_name:
         df[u'媒体'] = u'FBpapaya'
@@ -61,8 +61,8 @@ def filter_df(csv):
     df = pd.read_csv(csv, sep='\t', encoding='utf-16-le')
     # 插入columns
     insert_columns(df, csv)
-    df = df[df[u'总费用'] > 0]
-    df = df.loc[:, [u'日期', u'帐户名称', u'媒体', u'帐户编号', u'展示次数', u'点击量（全部）', u'移动应用安装', u'ctr', u'cvr', u'cpa', u'总费用']]
+    df = df[df[u'当前花费上限'] > 0]
+    df = df.loc[:, [u'日期', u'帐户名称', u'媒体', u'帐户编号', u'展示次数', u'点击量（全部）', u'移动应用安装', u'ctr', u'cvr', u'cpa', u'当前花费上限']]
     return df
 
 
