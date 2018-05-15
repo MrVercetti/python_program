@@ -10,7 +10,7 @@ from selenium.webdriver.support.select import Select
 url = "http://luru.hict.org.cn/"
 
 driver = webdriver.Chrome()
-driver.maximize_window()
+# driver.maximize_window()
 driver.get(url)
 driver.find_element_by_id("tbYHM").send_keys("建经168030".decode('utf-8'))
 driver.find_element_by_id("tbPSW").send_keys("1")
